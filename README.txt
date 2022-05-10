@@ -7,6 +7,7 @@ FINAL วิชา Software Devtools
 1. ติดตั้ง repo ทำได้ 2 วิธี
     1 clone โปรเจค git นี้ลงในเครื่อง 
     2. ใช้คำสั่ง docker-compose -f docker-compose-build.yaml build ในตำแหน่งไฟล์ที่ docker-compose-build.yaml นั้นอยู่
+    3. docker pull mongo
 
     หรือ
 
