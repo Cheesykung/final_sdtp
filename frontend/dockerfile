@@ -1,0 +1,10 @@
+FROM node:16
+WORKDIR /frontend
+
+COPY . .
+
+RUN yarn install
+RUN yarn build
+
+EXPOSE 9000
+CMD ["yarn", "serve"]
