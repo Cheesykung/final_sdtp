@@ -2,8 +2,8 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongo = require('mongodb').MongoClient;
-const url = "mongodb://localhost:20000";
-// const url = "mongodb://host.docker.internal:20000";
+// const url = "mongodb://localhost:20000"; // when dev
+const url = "mongodb://host.docker.internal:20000"; // when build docker
 
 app.use(express.json())
 app.use(cors("*"))
@@ -21,8 +21,8 @@ mongo.connect(
       console.error(err)
       return
     }
-    const dbo = client.db("test");
-    dbo.createCollection("test")
+    const dbo = client.db("test") // 1st run only
+    dbo.createCollection("test") // 1st run only
 
     db = client.db("test")
     test = db.collection("test")
