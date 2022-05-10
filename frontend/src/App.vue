@@ -1,15 +1,10 @@
 <template>
-  <DetailScreen />
+  <router-view />
 </template>
 
 <script>
-import DetailScreen from './components/detailScreen.vue'
-
 export default {
-  name: 'App',
-  components: {
-    DetailScreen
-  }
+  name: 'App'
 }
 </script>
 
