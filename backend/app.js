@@ -4,11 +4,12 @@ const cors = require('cors')
 const mongo = require('mongodb').MongoClient;
 // const url = "mongodb://localhost:20000"; // when dev
 const url = "mongodb://host.docker.internal:20000"; // when build docker
+const { PORT = 3000 }  = process.env
 
 app.use(express.json())
 app.use(cors("*"))
 
-let db
+let db, user
 
 mongo.connect(
   url,
@@ -21,36 +22,25 @@ mongo.connect(
       console.error(err)
       return
     }
-    const dbo = client.db("test") // 1st run only
-    dbo.createCollection("test") // 1st run only
+    const dbo = client.db("vaccine") // 1st run only
+    dbo.createCollection("user") // 1st run only
 
-    db = client.db("test")
-    test = db.collection("test")
+    db = client.db("vaccine")
+    user = db.collection("user")
   }
 )
 
-app.get('/', async (req, res) => {
-  await test.insertOne({ name: "Thai" })
+app.get('/:number', async (req, res) => {
+  const phone = req.params["number"]
 
-  res.status(200).send("eiei")
+  try {
+    await user.insertOne({ phoneNumber: phone })
+    res.status(200).send("Data Create")
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server Error")
+  }
 })
 
-// app.get('/hello', async (req, res) => {
-//   await test.insertOne({ name: "Thai" })
-
-//   let result = await test.find().toArray()
-
-//   res.status(200).send(result)
-// })
-
-app.get('/:name', async (req, res) => {
-  let name = req.params["name"]
-
-  let result = await test.find({
-    "name": name
-  }).toArray()
-
-  res.status(200).send(result)
-})
-
-app.listen(3000)
+app.listen(PORT)
